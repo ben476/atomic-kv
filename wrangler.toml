@@ -1,0 +1,32 @@
+name = "atomic-kv"
+type = "javascript"
+
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+compatibility_date = "2022-03-21"
+
+kv_namespaces = [ 
+  { binding = "KV", id = "Your KV ID", preview_id = "Your KV ID" }
+]
+
+[vars]
+SIGNING_PUBLIC_KEY = // Your ECDSA P-256 JWK
+ISSUER = // Issuer used for JWK
+
+[build.upload]
+format = "modules"
+dir = "./src"
+main = "./index.js" # becomes "./src/index.js"
+
+[[build.upload.rules]]
+type = "ESModule"
+globs = ["**/*.js"]
+
+[durable_objects]
+bindings = [{name = "ATOMIC_KV", class_name = "AtomicKV"}]
+
+[[migrations]]
+tag = "v1" # Should be unique for each entry
+new_classes = ["AtomicKV"]
